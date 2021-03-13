@@ -1,4 +1,4 @@
-module github.com/PrimerAI/tagsalot
+module github.com/tabossert/tagsalot
 
 go 1.16
 

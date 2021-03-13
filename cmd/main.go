@@ -3,15 +3,16 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/tabossert/tagsalot"
 )
 
-type tag struct {
+type imageResults struct {
 	Name string
+	Tags []string
 }
 
 type errorResponse struct {
@@ -20,7 +21,6 @@ type errorResponse struct {
 }
 
 func main() {
-
 	var image string
 	flag.StringVar(&image, "image", "", "Image name")
 
@@ -41,14 +41,17 @@ func main() {
 	if resp.StatusCode != 200 {
 		var content errorResponse
 		_ = json.Unmarshal(body, &content)
-		fmt.Println(content.Error)
+		log.Println(content.Error)
 		os.Exit(1)
 	}
 
 	var tags []tag
+	imageTags := imageResults{Name: image}
 	_ = json.Unmarshal(body, &tags)
-	for _, tag := range tags {
-		fmt.Println(tag.Name)
+	imageTags.Tags = tags
+	err := imageTags.PullRecentImageTags()
+	if err {
+		log.Println(err)
 	}
 
 }
