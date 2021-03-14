@@ -18,4 +18,4 @@ RUN chown -R tagsalot:tagsalot /go/src/app
 
 USER tagsalout
 
-CMD ["./tagsalout"]
+CMD ["./tagsalot"]
